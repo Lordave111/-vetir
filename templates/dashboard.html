@@ -2,38 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Seller Dashboard</title>
+    <title>Seller Dashboard | StyleHub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background: #040d08; color: white; font-family: 'Inter', sans-serif; padding: 40px; }
-        .container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         .box { background: #0d1f14; padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
-        input, select { width: 100%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 8px; box-sizing: border-box;}
-        .btn { background: #10b981; color: #040d08; padding: 12px; border: none; border-radius: 8px; width: 100%; font-weight: 700; cursor: pointer; }
-        .item { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #1a2e22; }
+        
+        label { display: block; margin-top: 15px; font-size: 0.8rem; color: #10b981; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; background: #000; border: 1px solid #333; color: white; border-radius: 8px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: #10b981; }
+        
+        /* Style for the file upload button */
+        input[type="file"] { padding: 8px; background: #0a140e; border: 1px dashed #10b981; cursor: pointer; }
+
+        .btn { background: #10b981; color: #040d08; padding: 15px; border: none; border-radius: 8px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 20px; transition: 0.3s; }
+        .btn:hover { background: #0da371; transform: translateY(-2px); }
+        
+        .item { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #1a2e22; }
+        .item-preview { width: 50px; height: 50px; border-radius: 5px; object-fit: cover; margin-right: 15px; border: 1px solid #10b981; }
+        .item-info { display: flex; align-items: center; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="box">
-            <h3 style="color:#10b981;">Upload Clothing</h3>
-            <form action="/upload" method="POST">
-                <input type="text" name="name" placeholder="Item Name" required>
-                <input type="text" name="price" placeholder="Price (e.g. 25,000)" required>
+            <h3 style="color:#10b981;"><i class="fas fa-cloud-upload-alt"></i> Upload New Catalog</h3>
+            
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <label>Item Name</label>
+                <input type="text" name="name" placeholder="e.g. Slim Fit Denim" required>
+                
+                <label>Price (₦)</label>
+                <input type="text" name="price" placeholder="e.g. 15,000" required>
+                
+                <label>Category</label>
                 <select name="category">
                     <option value="Men">Men</option>
                     <option value="Women">Women</option>
+                    <option value="Children">Children</option>
+                    <option value="Accessories">Accessories</option>
                 </select>
+
+                <label>Product Image</label>
+                <input type="file" name="image" accept="image/*" required>
+                
                 <button type="submit" class="btn">Publish to Market</button>
             </form>
         </div>
+
         <div class="box">
-            <h3 style="color:#10b981;">Your Active Listings</h3>
+            <h3 style="color:#10b981;"><i class="fas fa-list"></i> Your Active Listings</h3>
             {% for item in seller_items %}
             <div class="item">
-                <span>{{ item.name }} (₦{{ item.price }})</span>
+                <div class="item-info">
+                    <img src="{{ item.img }}" class="item-preview" alt="preview">
+                    <div>
+                        <div style="font-weight: bold;">{{ item.name }}</div>
+                        <div style="font-size: 0.8rem; color: #94a3b8;">₦{{ item.price }}</div>
+                    </div>
+                </div>
                 <form action="/delete/{{ item.id }}" method="POST">
-                    <button style="color:red; background:none; border:none; cursor:pointer;"><i class="fas fa-trash"></i></button>
+                    <button style="color:#ef4444; background:none; border:none; cursor:pointer; font-size: 1.2rem;">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </form>
             </div>
             {% endfor %}
