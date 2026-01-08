@@ -71,7 +71,7 @@ def upload():
         "category": request.form.get('category'),
         "seller": "name",
         "phone": "2347037065177",
-        "img" = "request.files['image']" # Placeholder since we aren't saving real files yet
+        "img" : request.files['image'] # Placeholder since we aren't saving real files yet
     }
     products.append(new_item)
     return redirect(url_for('dashboard'))
