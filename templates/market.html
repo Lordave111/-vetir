@@ -50,8 +50,9 @@
             <div class="details">
                 <h3 style="margin:0; font-family:'Space Grotesk';">{{ item.name }}</h3>
                 <div class="price">₦{{ item.price }}</div>
-                <a href="https://wa.me/{{ item.phone }}?text=I want to buy: {{ item.name }}" class="wa-btn">
-                    <i class="fab fa-whatsapp"></i> WhatsApp DM
+                <a href="https://wa.me/{{ item.seller.whatsapp }}?text=Hello, I am interested in the {{ item.name }} (₦{{ item.price }})" 
+                   class="wa-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Chat Seller
                 </a>
             </div>
         </div>
