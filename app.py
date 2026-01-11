@@ -1,6 +1,14 @@
+import cloudinary
+import cloudinary.uploader
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
+cloudinary.config( 
+  cloud_name = "YOUR_CLOUD_NAME", 
+  api_key = "YOUR_API_KEY", 
+  api_secret = "YOUR_API_SECRET",
+  secure = True
+)
 
 # --- MOCK DATABASE (Demo Data) ---
 # This simulates your SQL database. 
@@ -63,17 +71,29 @@ def dashboard():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # Capture form data
-    new_item = {
-        "id": len(products) + 1,
-        "name": request.form.get('name'),
-        "price": request.form.get('price'),
-        "category": request.form.get('category'),
-        "seller": "name",
-        "phone": "2347037065177",
-        "img" : request.get['image'] # Placeholder since we aren't saving real files yet
-    }
-    products.append(new_item)
+    file_to_upload = request.files.get('image')
+    name = request.form.get('name')
+    price = request.form.get('price')
+    category = request.form.get('category')
+
+    if file_to_upload:
+        # 1. Upload the file directly to Cloudinary
+        upload_result = cloudinary.uploader.upload(file_to_upload)
+        
+        # 2. Get the permanent secure URL
+        image_url = upload_result.get('secure_url')
+
+        # 3. Save the product with the permanent link
+        new_item = {
+            "id": len(products) + 1,
+            "name": name,
+            "price": price,
+            "category": category,
+            "img": image_url, # This is now a https://res.cloudinary.com/... link
+            "phone": "2348012345678"
+        }
+        products.append(new_item)
+        
     return redirect(url_for('dashboard'))
 
 @app.route('/delete/<int:item_id>', methods=['POST'])
