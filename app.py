@@ -4,9 +4,9 @@ from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 cloudinary.config( 
-  cloud_name = "YOUR_CLOUD_NAME", 
-  api_key = "YOUR_API_KEY", 
-  api_secret = "YOUR_API_SECRET",
+  cloud_name = "dvveagfz7", 
+  api_key = "773538431459482", 
+  api_secret = "1AO7K4qc0P4P2sVtVE22fJtIAUA",
   secure = True
 )
 
