@@ -45,7 +45,7 @@
         <div class="card">
             <div class="img-box">
                 <span class="tag">{{ item.category }}</span>
-                <img src="{{ item.img }}" alt="product">
+                <img src="{{ item.img_url }}" onerror="this.src='https://via.placeholder.com/300?text=Image+Not+Found'" alt="product">
             </div>
             <div class="details">
                 <h3 style="margin:0; font-family:'Space Grotesk';">{{ item.name }}</h3>
