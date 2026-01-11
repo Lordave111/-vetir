@@ -56,7 +56,7 @@
             {% for item in seller_items %}
             <div class="item">
                 <div class="item-info">
-                    <img src="{{ item.img }}" class="item-preview" alt="preview">
+                    <img src="{{ item.img_url }}" onerror="this.src='https://via.placeholder.com/300?text=Image+Not+Found'" alt="product">
                     <div>
                         <div style="font-weight: bold;">{{ item.name }}</div>
                         <div style="font-size: 0.8rem; color: #94a3b8;">₦{{ item.price }}</div>
